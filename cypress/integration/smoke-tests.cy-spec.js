@@ -26,5 +26,6 @@ describe("Smoke tests", () => {
       cy.get('#submit-button').click()
 
       cy.get('#period-never').click()
+      cy.restartBackend()
   })
 })

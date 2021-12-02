@@ -23,7 +23,6 @@ Cypress.Commands.add('setToken', () => {
 	var web3 = new Web3(Web3.ExternalProvider) 
 	const ethAddress = Cypress.env('ethAddress')
 	const privateKey = Cypress.env('privateKey')
-
 	cy.log(Cypress.env())
 	cy.request('GET', 'api/auth/nonce?ethereumAddress=' + ethAddress
 	).then((nonceResponse) => {
@@ -44,4 +43,9 @@ Cypress.Commands.add('setToken', () => {
       }
     )
   })
+})
+
+Cypress.Commands.add('restartBackend', () => {
+  const backendRestartCommand = Cypress.env('backendRestartCommand')
+  cy.exec(backendRestartCommand)
 })
