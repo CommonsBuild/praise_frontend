@@ -26,7 +26,7 @@ Cypress.Commands.add('setToken', () => {
 	cy.log(Cypress.env())
 	cy.request('GET', 'api/auth/nonce?ethereumAddress=' + ethAddress
 	).then((nonceResponse) => {
-    expect(nonceResponse.body).to.have.property('nonce')
+    // expect(nonceResponse.body).to.have.property('nonce')
 
     const message = "SIGN THIS MESSAGE TO LOGIN TO PRAISE.ADDRESS:" + ethAddress + "NONCE:" + nonceResponse.body.nonce
     const signature = web3.eth.accounts.sign(message, privateKey)
@@ -37,7 +37,7 @@ Cypress.Commands.add('setToken', () => {
       "signature": signature.signature
     }).then(
       (authResponse) => {
-        expect(authResponse.body).to.have.property('accessToken')
+        // expect(authResponse.body).to.have.property('accessToken')
 
         window.localStorage.setItem(`jwt_${authResponse.body.ethereumAddress}`, `${authResponse.body.accessToken}`)
       }
@@ -48,4 +48,10 @@ Cypress.Commands.add('setToken', () => {
 Cypress.Commands.add('restartBackend', () => {
   const backendRestartCommand = Cypress.env('backendRestartCommand')
   cy.exec(backendRestartCommand)
+})
+
+Cypress.Commands.add('submit_praise_array', (praise_array) => {
+  for (const praiseItem of praise_array) {
+    cy.request('POST', 'api/praise/create/discord', praiseItem)
+  }
 })
