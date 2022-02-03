@@ -12,12 +12,14 @@ const discordAvatarUrl = (account: UserAccount) => {
 interface UserAvatarProps {
   user?: User;
   userAccount?: UserAccount;
+  userAvatar?: Boolean;
 }
-const WrappedUserAvatar = ({ user, userAccount }: UserAvatarProps) => {
+const WrappedUserAvatar = ({ user, userAccount, userAvatar = true }: UserAvatarProps) => {
   const usePseudonyms = useRecoilValue(
     SingleBooleanSetting("PRAISE_QUANTIFY_RECEIVER_PSEUDONYMS")
-  );
-  if (usePseudonyms) return <FontAwesomeIcon icon={faUserCircle} size="2x" />;
+  );  
+
+  if (usePseudonyms && !userAvatar) return <FontAwesomeIcon icon={faUserCircle} size="2x" />;
   let url;
   if (user) {
     if (Array.isArray(user.accounts) && user.accounts.length > 0) {
